@@ -7,6 +7,7 @@ const server = express();
 
 //rest of the packages
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 //database
 const connectDB = require("./db/connect");
@@ -20,10 +21,13 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 server.use(morgan("tiny"));
 server.use(express.json());
+server.use(cookieParser(process.env.JWT_SECRET));
 
 const port = process.env.PORT || 5000;
 
-server.get("/", (req, res) => {
+server.get("/api/v1", (req, res) => {
+  // console.log(req.cookies);
+  console.log(req.signedCookies);
   res.send("e-commerce api");
 });
 
